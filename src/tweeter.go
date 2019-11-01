@@ -11,7 +11,7 @@ func main() {
 	shell := ishell.New()
 	shell.SetPrompt("Tweeter >> ")
 	shell.Print("Type 'help' to know commands\n")
-	service.InitializeService()
+	tweetManager := service.NewTweetManager()
 
 	shell.AddCmd(&ishell.Cmd{
 		Name: "publishTweet",
@@ -25,7 +25,7 @@ func main() {
 			text := c.ReadLine()
 			tweet := domain.NewTweet("pablodl", text)
 
-			service.PublishTweet(tweet)
+			tweetManager.PublishTweet(tweet)
 
 			c.Print("Tweet sent\n")
 
@@ -40,7 +40,7 @@ func main() {
 
 			defer c.ShowPrompt(true)
 
-			tweet := service.GetLastTweet()
+			tweet := tweetManager.GetLastTweet()
 
 			c.Println(tweet)
 
