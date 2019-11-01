@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/abiosoft/ishell"
+	"github.com/pablodl-meli/Tweeter/src/domain"
 	"github.com/pablodl-meli/Tweeter/src/service"
 )
 
@@ -10,6 +11,7 @@ func main() {
 	shell := ishell.New()
 	shell.SetPrompt("Tweeter >> ")
 	shell.Print("Type 'help' to know commands\n")
+	service.InitializeService()
 
 	shell.AddCmd(&ishell.Cmd{
 		Name: "publishTweet",
@@ -20,7 +22,8 @@ func main() {
 
 			c.Print("Write your tweet: ")
 
-			tweet := c.ReadLine()
+			text := c.ReadLine()
+			tweet := domain.NewTweet("pablodl", text)
 
 			service.PublishTweet(tweet)
 
@@ -37,7 +40,7 @@ func main() {
 
 			defer c.ShowPrompt(true)
 
-			tweet := service.GetTweet()
+			tweet := service.GetLastTweet()
 
 			c.Println(tweet)
 
